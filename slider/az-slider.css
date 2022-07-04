@@ -1,0 +1,15 @@
+.az-slide{
+    overflow: hidden;
+    text-overflow: clip;
+    box-sizing: border-box;
+}
+
+.slide-box {
+    display: grid;
+    overflow: hidden;
+    text-overflow: hidden;
+    grid-column: 2/3;
+    grid-row: 1/2;
+    grid-template-columns: 1/2;
+    grid-row: 1/2;
+}
