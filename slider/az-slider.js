@@ -25,6 +25,7 @@ class Slider{
                 }
             }
         }
+        //Флаг, останавливающий обработчики событий, пока работает анимация
         this.flag = true;
         this.slides.push(this.slides.shift());
         this.navigator = document.getElementsByClassName("az-point");
@@ -32,7 +33,8 @@ class Slider{
         this.navigator[this.currentSlide].style.backgroundColor = "black";
     }
     
-	//Метод, непосредственно вызываемые для перелистывания страницы на одну
+	//Метод, непосредственно вызываемые для перелистывания страницы на одну вперёд.
+    // Манипулирует margin элементов
 	onFlip(){ 
         if(this.flag){
             this.flag = false;
@@ -46,64 +48,17 @@ class Slider{
         this.slides.push(nextSlide);
         //Получение текущего слайда
         let currentSlide = this.slides[this.slides.length-2];
-        //Тут будут храниться изначальные относительные значения размеров всех дочерних элементов
-        /*let computedChild = new Array();
-        //рассчёт всех параметров блока
-        nextSlide.style.display = "block";
-        //В цикле получаются все относительные параметры детей и запоминаются
-        //Затем они заменяются на вычисленные значения
-        for(let i = 1; i < nextSlide.childNodes.length; i+=2){
-            computedChild[i-1] = nextSlide.childNodes[i].style.width;
-            computedChild[i] = nextSlide.childNodes[i].style.height;
-            nextSlide.childNodes[i].style.width = nextSlide.childNodes[i].offsetWidth + "px";
-            nextSlide.childNodes[i].style.height = nextSlide.childNodes[i].offsetHeight + "px";
-        }
-        //Текущий слайдер помещается за целевой
-        currentSlide.style.zIndex = "1";
-        nextSlide.style.zIndex = "2";
-        //подготовка целевого слайда
-        nextSlide.style.marginRight = "0px";
-        nextSlide.style.marginLeft = "auto";
-        nextSlide.style.width = "0px";
-        let width = 0;
-        let marginLeft = 0;
-        //собственно, анимация
-        let SIid = setInterval((function(c){
-            //каждые 5мс целевой слайд увеличивается на процент, а текущий - съезжает влево 
-            nextSlide.style.width = ++width + "%";
-            currentSlide.style.marginLeft = --marginLeft + "%";
-            //как только анимация закончена, все значения целевого слайда заменяются обратно на относительные
-            //все навесы на текущий слайд обнуляются, он выводится из потока отрисовки
-            if(width == 100){
-                for(let i = 1; i < nextSlide.childNodes.length; i+=2){
-                    nextSlide.childNodes[i].style.width = computedChild[i-1];
-                    nextSlide.childNodes[i].style.height = computedChild[i];
-                }
-                nextSlide.setAttribute("style", "");
-                currentSlide.setAttribute("style", "");
-                currentSlide.style.display = "none";
-                currentSlide.style.zIndex = "0";
-                window.slider.flag = true;
-                clearInterval(SIid);
-            }
-        }), 5);*/
-        /*let computedChild = new Array();
-        computedChild[0] = currentSlide.style.width;
-        computedChild[1] = currentSlide.style.height;
-        computedChild[2] = nextSlide.style.width;
-        computedChild[3] = nextSlide.style.height;*/
+        //отрисовка элемента
         nextSlide.style.display = "";
-        /*currentSlide.style.width = currentSlide.offsetWidth + "px";
-        currentSlide.style.height = currentSlide.offsetHeight + "px";
-        nextSlide.style.width = currentSlide.offsetWidth + "px";
-        nextSlide.style.height = currentSlide.offsetHeight + "px";*/
         nextSlide.style.marginLeft = "100%";
         let marginLeft = 100;
         let marginRight = 0;
+        //Собственно, анимация
         let SIid = setInterval((function(c){
             nextSlide.style.marginLeft = --marginLeft + "%";
             currentSlide.style.marginLeft = --marginRight + "%";
             if(marginLeft == 0){
+                //Конечная обработка стилей элементов
                 nextSlide.setAttribute("style", "");
                 currentSlide.setAttribute("style", "");
                 currentSlide.style.display = "none";
@@ -119,6 +74,7 @@ class Slider{
         this.navigator[this.currentSlide].style.backgroundColor = "black";
      }
      
+    //Перелистывание назад
     onFlipBack(){
         if(this.flag){
             this.flag = false;
@@ -152,6 +108,7 @@ class Slider{
         this.navigator[this.currentSlide].style.backgroundColor = "black";
     }
      
+    //перелистывание на определённый слайд
     flip(slideNumber){
         slideNumber %= 6;
         if(this.currentSlide == slideNumber-1)
@@ -196,6 +153,3 @@ class Slider{
     }
 }
 
-/*this.slides[this.slides.length-2].setAttribute("style", "");
-                this.slides[this.slides.length-2].style.display = "none"; // все элементы после первого скрываются
-                this.slides[this.slides.length-2].style.zIndex = "0";*/
